@@ -1,4 +1,3 @@
-#lang scheme
 (define (square x) (* x x))
 
 (define (get-sum-of-squares x y) (+ (square x) (square y)))
