@@ -1,0 +1,47 @@
+(define (timed-prime-test n times)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime) times))
+
+(define (start-prime-test n start-time times)
+  (if (fast-prime? n times)
+      (report-prime (- (runtime) start-time))))
+
+(define (report-prime elapsed-time)
+  (display " *** ")
+  (display elapsed-time))
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))        
+
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1)))))
+
+(define (fast-prime? n times)
+  (cond ((= times 0) true)
+        ((fermat-test n) (fast-prime? n (- times 1)))
+        (else false)))
+
+(define times 1000)
+
+(timed-prime-test 1009 times)
+(timed-prime-test 1013 times)
+(timed-prime-test 1019 times)
+(timed-prime-test 10007 times)
+(timed-prime-test 10009 times)
+(timed-prime-test 10037 times)
+(timed-prime-test 100003 times)
+(timed-prime-test 100019 times)
+(timed-prime-test 100043 times)
+(timed-prime-test 1000003 times)
+(timed-prime-test 1000033 times)
+(timed-prime-test 1000037 times)
+(newline)
